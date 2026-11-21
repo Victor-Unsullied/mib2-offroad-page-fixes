@@ -16,8 +16,8 @@
   "files": [
     {
       "path": "CHANGELOG.md",
-      "bytes": 1703,
-      "sha256": "b7d4459ea640dfc5881be3998f5c078721f7e361c3c8bc93dffc81a11c43ac20"
+      "bytes": 1934,
+      "sha256": "998c003cd6be8e90385fe972b4e78da04a43104edb2ad37417e3b200c733b506"
     },
     {
       "path": "Install.cmd",
@@ -31,13 +31,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 4224,
-      "sha256": "0dd1110c10a6efbfde2f36e8a243ab2f3836b10f226a24317cbbd003807a57b3"
+      "bytes": 6398,
+      "sha256": "85ec482d650ebc43a806a1ad26ea1cdca657b7ed19fae9d1fde259d6eeecc3b2"
     },
     {
       "path": "RUNBOOK.txt",
-      "bytes": 3358,
-      "sha256": "a3035b584f7951395775e1c7464929c19d605cd30116d177c42dbe9aa7f4defc"
+      "bytes": 3493,
+      "sha256": "aa9807198f2a996ab358cbac3b9ea110aa6b7e9bec038bf498209d66c224d6bf"
     },
     {
       "path": "VERSION",
@@ -53,6 +53,11 @@
       "path": "docs/offroad-gauges.jpg",
       "bytes": 142466,
       "sha256": "1e6a5a568b7bc1aa9f99f9f8b7922d64fc99738eccad72688f571dd329f45961"
+    },
+    {
+      "path": "docs/offroad-temperature.xml",
+      "bytes": 924,
+      "sha256": "4baafb4791aa11fc95c7592d54cef1dc9cc4f5b9b3e7fa5a68444ae0450ca356"
     },
     {
       "path": "install.py",

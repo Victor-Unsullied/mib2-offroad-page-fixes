@@ -1,8 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Document the shared engine oil and coolant temperature repair and add a profile for the Sport Gauges v1.0.0 installer.
+- Identify the standalone Offroad installer as a page visibility tool.
+
 ## v0.1.0 (First public installer prerelease)
 
-- Guided installer with compatibility checks, before-and-after verification, and rollback to the saved Offroad setting.
+- Guided page visibility installer with compatibility checks, before-and-after verification, and rollback to the saved Offroad setting.
 - Offline checks passed. The installer is untested on Windows and against a live head unit.
 
 ## Earlier local development builds
@@ -26,6 +31,6 @@
 
 ### Earlier standalone prototype
 
-- Prepare the standalone Offroad / Compass correction for the reviewed Delphi 874B navigation-equipped configuration.
+- Prepare the standalone Offroad / Compass visibility change for the reviewed Delphi 874B navigation-equipped configuration.
 - Verify the stock configuration with pinned SHA-256 digests and preserve all menu settings outside the Offroad bit.
 - Verify the installer and one-bit behavior offline with synthetic configuration fixtures. Original in-vehicle evidence covers normal reboot and menu operation.

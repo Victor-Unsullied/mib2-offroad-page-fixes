@@ -1,21 +1,33 @@
-# MIB2 Offroad Page Fixes
+# MIB2 Offroad Temperature Gauges
 
-Show the factory **Offroad / Compass** page on a supported Delphi MIB2 by changing its visibility setting.
-
-**Experimental v0.1.0 prerelease. The installer has not been tested on Windows or against a live head unit.**
+Fix the **engine oil and coolant temperature readings** on the factory Offroad / Compass page of a Delphi MIB2. Offroad and Sport read the same temperature data. The shared correction in the Sport Gauges project fixed both readings on the project car. The compass, altitude and steering-angle gauges use their original data.
 
 ![Offroad information page on a Delphi MIB2 head unit](docs/offroad-gauges.jpg)
 
-*Offroad page on the project car during earlier development. The installer changes whether this page is visible.*
+*Offroad page on the project car showing coolant temperature, oil temperature and altitude.*
 
-## Before you start
+## Fix the temperature readings
+
+The earlier shared fix worked in a 2015 Golf 7 with a Delphi 874B, software train `MST2_EU_VW_P0635D` and MU `0757`. The configuration below selects both temperature corrections with the rest of the Sport Gauges options at their defaults. The profile was checked offline with the v1.0.0 installer. Installation of this profile on Windows and on a live head unit remains untested.
+
+If Sport Gauges already applies both corrections on your unit, Offroad uses the corrected readings automatically. If you already have a customized Sport setup, keep its configuration and use the Sport Gauges instructions for changing your existing installation.
+
+1. Download and extract the [Sport Gauges v1.0.0 installer](https://utkulekesiz.com/assets/mib2-sports/v1.0.0/mib2-sports-gauges-v1.0.0.zip). Use its [release page](https://github.com/Victor-Unsullied/mib2-sports-gauges/releases/tag/v1.0.0) for prerequisites and compatibility.
+2. Save the [Offroad temperature profile](https://raw.githubusercontent.com/Victor-Unsullied/mib2-offroad-page-fixes/main/docs/offroad-temperature.xml) as `config.xml` in the extracted Sport Gauges folder, next to its `install.py`. Run `py -3 configure.py`, enter the actual Train and MU from your unit, and save. If only one reading is wrong, clear the other temperature correction in the configurator.
+3. From that folder, run `py -3 install.py --check` and `py -3 install.py --plan` to review the setup offline. Follow the Sport Gauges installation instructions, then check the two readings on the Offroad page as the engine warms up. Keep the Sport Gauges folder and its `state/` directory. For temperature rollback, run `py -3 install.py --rollback` from that same folder.
+
+## Show the Offroad page if it is missing
+
+The **Offroad v0.1.0 ZIP** changes only the visibility of the Offroad / Compass page. If your page already opens, skip this installer. **The visibility installer has not been tested on Windows or against a live head unit.**
+
+### Before you start
 
 - Check the unit's system information. This installer supports the navigation-equipped **Delphi 874B** with software train **MST2_EU_VW_P0635D** and MU **0757** on the reviewed vehicle configuration.
 - Check the label of the adapter plugged into the head unit for **D-Link DUB-E100**. Connect its Ethernet cable to your computer. Windows can check its own Ethernet connection and route to the supplied IP. Check the model on the label because the adapter plugs into the head unit. The head unit’s maintenance service (DebugSPI, TCP port 15001) must already be available. [D-Link connection guide](https://utkulekesiz.com/en/blog/mib2-dlink-connection/)
 - Have the IP address displayed in the head unit’s service menu ready. The wizard offers **192.168.1.4** as a default. Press Enter only if it matches the unit, or type the address shown on the unit. Use Python 3.10 or later.
 - Park the vehicle. Keep the head unit powered and the cable connected until the installer finishes verifying the setting.
 
-## Install
+### Run the visibility installer
 
 Download and extract the installer ZIP. On Windows, double-click `Install.cmd` to start the wizard. To check the package or read the instructions first, open PowerShell in the extracted folder. [GitHub prerelease](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/releases/tag/v0.1.0)
 
@@ -36,7 +48,7 @@ To check the current setting, run the read-only inspection. It uses the same con
 py -3 -B install.py --inspect
 ```
 
-## Roll back
+### Roll back the visibility setting
 
 Use the same physical unit, IPv4 address, private code and recovery folder.
 
@@ -46,13 +58,13 @@ py -3 -B install.py --rollback
 
 The installer shows the current setting and the saved setting it would restore. If they already match, it reports the verified result with no change to the unit. If an earlier operation stopped after a possible change, restart the unit normally and read its current setting with `--inspect` before attempting rollback. Keep the recovery folder available until you finish. See [RUNBOOK.txt](RUNBOOK.txt) for details and legacy commands.
 
-## Offline checks
+### Offline checks for the visibility installer
 
 ```powershell
 py -3 -B -m unittest discover -s tests -p 'test_*.py' -v
 py -3 -B tests/check_portability.py
 ```
 
-The tests use simulated unit data. They cover cancellation, rollback, interrupted writes, and preservation of the Think Blue Trainer setting. The original correction was checked in a vehicle through a normal reboot. The guided installer was checked offline on macOS. Windows, live head-unit behavior, and persistence after full power removal remain unverified.
+The tests use simulated unit data. They cover cancellation, rollback, interrupted writes, and preservation of the Think Blue Trainer setting. The original menu change was checked in a vehicle through a normal reboot. The guided installer was checked offline on macOS. Windows, live head-unit behavior, and persistence after full power removal remain unverified.
 
 Report a bug or share a compatibility result in GitHub Issues. Include your head-unit model, Train, MU and project version. Share only reviewed error text or screenshots. [Open an issue](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/issues/new/choose)

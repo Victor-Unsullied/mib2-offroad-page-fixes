@@ -1,4 +1,7 @@
-Offroad / Compass installation and recovery
+Offroad / Compass page visibility and recovery
+
+  These steps only change whether the page appears in the menus.
+  For the oil and coolant temperature corrections, see README.md.
 
 Before you start
   Use Python 3.10 or later. Check for Delphi 874B, software train
