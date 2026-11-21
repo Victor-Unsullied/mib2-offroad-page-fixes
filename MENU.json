@@ -1,0 +1,12 @@
+{
+  "name": "offroad",
+  "namespace": 27263191,
+  "key": 216,
+  "offset": 16,
+  "preserved_other_menu_offset": 37,
+  "baseline_sha256": {
+    "CarFuncAdap": "82d63ad7f6ad6e49365ddc3c3664b253eee401d92a151de48418cff095ad9b5b",
+    "CarFuncListBap": "a8640f90b34f58fdfd6d593af0537509432168cb983cac4e598faaea12dbeb6a",
+    "Coding": "912808dc68f972de836fb87603e81b9d5f5dcfcc971ebd7d34913f67a9721295"
+  }
+}

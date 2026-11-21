@@ -1,0 +1,64 @@
+Offroad / Compass installation and recovery
+
+Before you start
+  Use Python 3.10 or later. Check for Delphi 874B, software train
+  MST2_EU_VW_P0635D and MU 0757 on your navigation-equipped head unit.
+  Check the D-Link DUB-E100 label on the adapter plugged into the head
+  unit, then connect its Ethernet cable to the computer. On Windows the
+  wizard checks for an active, directly connected Ethernet route.
+  The unit's maintenance service (DebugSPI on TCP port 15001) must already
+  be available through this setup. Copy the IPv4 address from the unit's
+  service menu. The default is 192.168.1.4. Use it only if it matches the
+  unit. Park the vehicle and keep the head unit powered.
+
+Guided commands
+  py -3 -B install.py --check      Check the package offline.
+  py -3 -B install.py --plan       Print these steps.
+  py -3 -B install.py --inspect    Read and check the current setting.
+  py -3 -B install.py              Show the Offroad / Compass page.
+  py -3 -B install.py --rollback   Restore the saved Offroad setting.
+
+  On Windows, double-click Install.cmd to start the wizard. You can also
+  run these commands in PowerShell. Use python3 in place of py -3 on
+  platforms with that command. Press Enter for English or type tr for
+  Turkish. You can also pass --language en or --language tr. Enter the
+  unit's IPv4 address or pass it with --host.
+
+What the installer does
+  It reads the menu settings, the vehicle function list and navigation
+  coding, and compares them with the reviewed setup. It shows the
+  verified Offroad setting and asks permission before applying a change.
+  Press Enter at that question to stop safely. Only the visibility of
+  Offroad / Compass is changed. The installer then reads the setting and
+  the menu group again to verify the result. Keep the unit powered and
+  the cable connected until verification finishes. Restart the unit
+  normally, then check the page in the car's menus.
+
+Guided recovery
+  Use the same physical unit, IPv4 address, private code and recovery
+  folder for rollback. The code is a label you supply, such as the
+  unit's serial number. The installer saves a fingerprint of the code
+  in the recovery file so it can check that you are using the same
+  record. The default folder is state/ beside install.py. Keep it
+  private, or use --state-dir to select a private folder and use that
+  same path later. Run one operation at a time for the same unit.
+
+  If an earlier operation ended before a change could be verified,
+  restart the unit normally, then run --inspect to check the current
+  setting. Run --rollback and confirm that you completed both steps.
+  The installer reads the setting again and asks for final approval
+  if a change is needed. Keep the recovery folder if the installer
+  reports that the receipt is damaged or belongs to a different unit.
+
+Legacy commands
+  python install.py verify
+  python install.py plan
+  python install.py inspect --live --host HEAD_UNIT_IP
+  python install.py apply --live --host HEAD_UNIT_IP
+  python install.py rollback --live --host HEAD_UNIT_IP
+
+  Replace HEAD_UNIT_IP with your unit's IPv4 address. Use the same
+  compatibility and connection checks. Legacy rollback turns the page
+  off. Use guided --rollback to restore the saved setting from a
+  guided installation. Legacy reports and captures are in lib/live/.
+  Keep them private.

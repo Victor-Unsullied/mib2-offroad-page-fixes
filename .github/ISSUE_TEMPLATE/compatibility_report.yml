@@ -1,0 +1,37 @@
+name: Compatibility / support request
+description: Request support for a configuration or share an existing vehicle test result.
+title: "[Compatibility]: "
+body:
+  - type: markdown
+    attributes:
+      value: This report is public. A test is optional. Keep raw captures, vehicle configuration and private connection details local.
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Type of submission
+      options:
+        - Support request
+        - Existing test result
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Project version
+      placeholder: v0.1.0 or future release
+    validations:
+      required: true
+  - type: input
+    id: unit
+    attributes:
+      label: Head unit, Train and MU
+      placeholder: Delphi 874B / MST2_EU_VW_P0635D / 0757
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Vehicle configuration and requested support or result
+      description: Include model, model year and whether factory navigation is present. For an existing result, specify whether you checked initial page access, a normal reboot or physical power removal.
+    validations:
+      required: true

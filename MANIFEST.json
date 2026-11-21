@@ -1,0 +1,113 @@
+{
+  "package_version": "0.1.0",
+  "feature": "offroad",
+  "self_contained": true,
+  "entry_point": "install.py",
+  "runbook": "RUNBOOK.txt",
+  "requirements": {
+    "python": ">=3.10",
+    "third_party_packages": []
+  },
+  "compatibility": {
+    "head_unit": "Delphi 874B",
+    "train": "MST2_EU_VW_P0635D",
+    "mu": "0757"
+  },
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 1703,
+      "sha256": "b7d4459ea640dfc5881be3998f5c078721f7e361c3c8bc93dffc81a11c43ac20"
+    },
+    {
+      "path": "Install.cmd",
+      "bytes": 152,
+      "sha256": "5a7748178aaf1b106af425cb9790e1ecdabb51187b7704d3f0dffd68e1bbf588"
+    },
+    {
+      "path": "MENU.json",
+      "bytes": 402,
+      "sha256": "1d6fd5f80a469ba181a22561b5a29475af8a2a53ca2cf72dd6f6cb012eebb70b"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4224,
+      "sha256": "0dd1110c10a6efbfde2f36e8a243ab2f3836b10f226a24317cbbd003807a57b3"
+    },
+    {
+      "path": "RUNBOOK.txt",
+      "bytes": 3358,
+      "sha256": "a3035b584f7951395775e1c7464929c19d605cd30116d177c42dbe9aa7f4defc"
+    },
+    {
+      "path": "VERSION",
+      "bytes": 6,
+      "sha256": "e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67"
+    },
+    {
+      "path": "data/fixtures/codec.log",
+      "bytes": 936,
+      "sha256": "35870c86452f1aaf522ef51e43caff25556acbc48691e0cf8e709e2c2557974c"
+    },
+    {
+      "path": "docs/offroad-gauges.jpg",
+      "bytes": 142466,
+      "sha256": "1e6a5a568b7bc1aa9f99f9f8b7922d64fc99738eccad72688f571dd329f45961"
+    },
+    {
+      "path": "install.py",
+      "bytes": 2990,
+      "sha256": "dc97bc3194fac4c04a42744280329b9130806f6af6d0d7f22b31fed04e99082b"
+    },
+    {
+      "path": "lib/ethernet.py",
+      "bytes": 1956,
+      "sha256": "b6af2cd55aaaf61c65b01a88f7e6d90b6b9d6fafc822cf645d4fc1abf58a11fb"
+    },
+    {
+      "path": "lib/guided.py",
+      "bytes": 13532,
+      "sha256": "17109342d6170826f2ccbb1529cdf0098f2aff7d0dfe8a425d6e0f09e99a368f"
+    },
+    {
+      "path": "lib/native_menu.py",
+      "bytes": 8339,
+      "sha256": "915fa1fee737d29228f0962fda8a24e899556ccd9f85e5d19644ebec933608db"
+    },
+    {
+      "path": "lib/package.py",
+      "bytes": 1309,
+      "sha256": "5d95165edadc5990d43dded9788c8117ad245a1638d13f7d20cd0b63b1a11a81"
+    },
+    {
+      "path": "lib/read_adaptations.py",
+      "bytes": 5282,
+      "sha256": "3ccbfcef293fb9817c50a77f731be96b4172c4a1e9a534e087ab06480d505c00"
+    },
+    {
+      "path": "lib/read_baseline.py",
+      "bytes": 2933,
+      "sha256": "66fdfaf4462f28ff857109c1360e22bd784055e172da5a15b62072b1d3ca34ac"
+    },
+    {
+      "path": "lib/receipt.py",
+      "bytes": 3306,
+      "sha256": "a976f495b64e661aba771988f32f73dc0c3ca5049a5ff0e98ff01ce7494b5997"
+    },
+    {
+      "path": "tests/check_portability.py",
+      "bytes": 3715,
+      "sha256": "d82f8ed6bb3fcefd313b3c3d64a99457939db7de95b5f02eb68c100c333e4cc0"
+    },
+    {
+      "path": "tests/test_guided.py",
+      "bytes": 11602,
+      "sha256": "d4176ce4d9420089339ef3c1d0969c5b71d50a05cbeaa268faf55891d20467f5"
+    },
+    {
+      "path": "tests/test_own_menu.py",
+      "bytes": 3332,
+      "sha256": "626fcfd6b2dd066e53d0d41ce20a75e7a66610adac5e04005a493f2db7a68018"
+    }
+  ]
+}
