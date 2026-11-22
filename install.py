@@ -1,70 +1,91 @@
-"""Standalone Offroad configuration and recovery for the reviewed Delphi MIB2."""
+"""Prepare and run the temperature-only Offroad repair."""
+
 import argparse
-from ipaddress import IPv4Address
+from hashlib import sha256
+from http.client import HTTPException
+from io import BytesIO
+import os
 from pathlib import Path
+import subprocess
 import sys
+from tempfile import TemporaryDirectory
+from urllib.request import urlopen
+from zipfile import BadZipFile, ZipFile
+
 
 ROOT = Path(__file__).resolve().parent
-sys.path.insert(0, str(ROOT / 'lib'))
-import package
+STATE = ROOT / 'state' / 'temperature'
+SPORT_COMMIT = '100c8b3617203f5706d968700329854160eaab9d'
+SPORT_ARCHIVE = (
+    'https://codeload.github.com/Victor-Unsullied/mib2-sports-gauges/zip/' + SPORT_COMMIT
+)
+SPORT_SHA256 = '8cf350a21adae8cf2d7ef05bb27939af6a121a68dee57796b1a6731ca2aa3132'
+MAX_ARCHIVE_BYTES = 1024 * 1024
+
+
+def verify_archive(path):
+    with path.open('rb') as stream:
+        data = stream.read(MAX_ARCHIVE_BYTES + 1)
+    if len(data) > MAX_ARCHIVE_BYTES or sha256(data).hexdigest() != SPORT_SHA256:
+        raise ValueError(f'Sport Gauges download failed verification. Check or remove the archive at {path}.')
+    return data
+
+
+def prepare_archive(state):
+    cache = state / 'sports.zip'
+    if cache.exists():
+        return verify_archive(cache)
+
+    print('Downloading the verified Sport Gauges repair from GitHub. No connection to the car is needed yet.', flush=True)
+    with TemporaryDirectory(dir=state) as temporary:
+        incoming = Path(temporary) / 'sports.zip'
+        with urlopen(SPORT_ARCHIVE, timeout=25) as response:
+            incoming.write_bytes(response.read(MAX_ARCHIVE_BYTES + 1))
+        data = verify_archive(incoming)
+        os.replace(incoming, cache)
+    return data
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    choices = parser.add_mutually_exclusive_group()
-    choices.add_argument('--check', action='store_const', dest='guided', const='verify',
-                         help='verify the package offline')
-    choices.add_argument('--plan', action='store_const', dest='guided', const='plan',
-                         help='read the installation plan offline')
-    choices.add_argument('--inspect', action='store_const', dest='guided', const='inspect',
-                         help='run guided read-only inspection')
-    choices.add_argument('--rollback', action='store_const', dest='guided', const='rollback',
-                         help='restore the original state recorded by the guided installer')
-    parser.add_argument('action', nargs='?', choices=['verify', 'plan', 'inspect', 'apply', 'rollback'],
-                        help='legacy CLI command')
-    parser.add_argument('--live', action='store_true', help='allow a legacy command to connect')
-    parser.add_argument('--host', type=IPv4Address, help='IPv4 address of your head unit')
-    parser.add_argument('--state-dir', type=Path, help='private state folder for the guided installer')
-    parser.add_argument('--language', '--lang', dest='lang', choices=['en', 'tr'],
-                        help='select the guided installer language')
+    actions = parser.add_mutually_exclusive_group()
+    actions.add_argument('--check', action='store_const', dest='action', const='--check',
+                         help='verify the downloaded repair and profile without connecting to the car')
+    actions.add_argument('--plan', action='store_const', dest='action', const='--plan',
+                         help='show the temperature repair steps without connecting to the car')
+    actions.add_argument('--inspect', action='store_const', dest='action', const='--inspect',
+                         help='check the connected head unit without changing it')
+    actions.add_argument('--rollback', action='store_const', dest='action', const='--rollback',
+                         help='restore the backup made before this temperature repair')
     args = parser.parse_args(argv)
 
-    if args.action and (args.guided or args.state_dir or args.lang):
-        parser.error('Choose either a guided option or a legacy command')
-    if args.live and not args.action:
-        parser.error('--live is for legacy commands')
+    if sys.version_info < (3, 10):
+        parser.error('Use Python 3.10 or later.')
+    if args.action not in ('--check', '--plan') and sys.platform != 'win32':
+        parser.error('Use Windows for head-unit operations. --check and --plan also work on this computer.')
+    if args.action == '--rollback':
+        records = ('session.json', 'session.recovery', 'native/owner.json',
+                   'native/transaction.json', 'native/recovery.json')
+        if not any((STATE / name).is_file() for name in records):
+            parser.error('No temperature repair records were found. Run rollback from the original installer folder.')
 
-    action = args.action or args.guided or 'apply'
-    if action == 'plan':
-        print((ROOT / 'RUNBOOK.txt').read_text(encoding='utf-8'))
-        return 0
-
-    package.integrity()
-    if action == 'verify':
-        package.invoke('native_menu.py', ['verify'])
-        print('Package check complete. Use --plan to review the steps.')
-        return 0
-
-    if args.action:
-        if not args.live:
-            parser.error('--live required for device actions')
-        if args.host is None:
-            parser.error('--host required for device actions')
-        package.invoke('native_menu.py', [action, '--live', '--host', str(args.host)])
-        return 0
-
-    import guided
-
-    guided.run(action, args.host, (args.state_dir or ROOT / 'state').resolve(), args.lang)
-    return 0
+    try:
+        STATE.mkdir(parents=True, exist_ok=True)
+        archive = prepare_archive(STATE)
+        with TemporaryDirectory(prefix='mib2-offroad-') as temporary:
+            # Extract only the bytes that passed verification.
+            with ZipFile(BytesIO(archive)) as bundle:
+                bundle.extractall(temporary)
+            engine = Path(temporary) / f'mib2-sports-gauges-{SPORT_COMMIT}'
+            command = [sys.executable, '-I', '-B', str(ROOT / 'lib' / 'temperature_engine.py'),
+                       str(engine), str(STATE), str(ROOT / 'docs' / 'offroad-temperature.xml')]
+            if args.action:
+                command.append(args.action)
+            return subprocess.run(command, cwd=engine).returncode
+    except (OSError, HTTPException, ValueError, BadZipFile, KeyboardInterrupt) as error:
+        print(f'Offroad installer stopped. {error}', file=sys.stderr)
+        return 1
 
 
 if __name__ == '__main__':
-    try:
-        sys.exit(main())
-    except (EOFError, KeyboardInterrupt):
-        print('Cancelled / İptal edildi.', file=sys.stderr)
-        sys.exit(2)
-    except (OSError, ValueError) as error:
-        print(str(error), file=sys.stderr)
-        sys.exit(1)
+    sys.exit(main())

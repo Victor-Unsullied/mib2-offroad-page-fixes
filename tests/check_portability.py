@@ -33,7 +33,7 @@ def check():
     with tempfile.TemporaryDirectory(prefix='MIB2 portable verification ') as temporary:
         destination = Path(temporary) / 'relocated corrections with spaces'
         shutil.copytree(ROOT, destination, ignore=shutil.ignore_patterns('__pycache__', 'live', 'installation', 'state'))
-        jobs = [('lib/native_menu.py', ['verify']), ('install.py', ['plan'])]
+        jobs = [('lib/native_menu.py', ['verify']), ('menu_visibility.py', ['plan'])]
         for name, arguments in jobs:
             result = subprocess.run([sys.executable, '-I', '-B', '-c', GUARDED_LOADER,
                 str(destination), str(destination / name), *arguments],
@@ -41,21 +41,21 @@ def check():
             if result.returncode:
                 raise RuntimeError(name + '\n' + result.stdout + result.stderr)
         # Exercise the real entry point and its separate child interpreters too.
-        verified = subprocess.run([sys.executable, '-I', '-B', str(destination / 'install.py'), 'verify'],
+        verified = subprocess.run([sys.executable, '-I', '-B', str(destination / 'menu_visibility.py'), 'verify'],
             cwd=temporary, capture_output=True, text=True, timeout=45)
         if verified.returncode:
             raise RuntimeError(verified.stdout + verified.stderr)
         missing_device_arguments = [(['apply'], '--live'), (['apply', '--live'], '--host')]
         for arguments, expected in missing_device_arguments:
             denied = subprocess.run([sys.executable, '-I', '-B', '-c', GUARDED_LOADER,
-                str(destination), str(destination / 'install.py'), *arguments],
+                str(destination), str(destination / 'menu_visibility.py'), *arguments],
                 cwd=temporary, capture_output=True, text=True, timeout=10)
             if denied.returncode != 2 or expected not in denied.stderr:
                 raise RuntimeError('Missing explicit device gate: ' + str(arguments))
         # A damaged payload must fail locally before a live action can dispatch.
         payload = destination / 'MENU.json'
         payload.write_bytes(payload.read_bytes() + b'corrupt-fixture')
-        corrupted = subprocess.run([sys.executable, '-I', '-B', str(destination / 'install.py'), 'verify'],
+        corrupted = subprocess.run([sys.executable, '-I', '-B', str(destination / 'menu_visibility.py'), 'verify'],
             cwd=temporary, capture_output=True, text=True, timeout=15)
         if corrupted.returncode != 1 or 'Package file changed' not in corrupted.stderr:
             raise RuntimeError('Damaged-payload verification did not refuse the package')

@@ -1,9 +1,11 @@
 # Changelog
 
-## Unreleased
+## v0.2.0 (Temperature repair prerelease)
 
-- Document the shared engine oil and coolant temperature repair and add a profile for the Sport Gauges v1.0.0 installer.
-- Identify the standalone Offroad installer as a page visibility tool.
+- Make the shared oil and coolant temperature repair the default Windows installer.
+- Verify a pinned Sport Gauges recovery build, check the direct Ethernet connection, and keep temperature backups for rollback.
+- Keep the v0.1.0 menu visibility installer available for units where the Offroad page is missing.
+- Checks passed offline. Installation and rollback on Windows and on a live head unit remain untested.
 
 ## v0.1.0 (First public installer prerelease)
 

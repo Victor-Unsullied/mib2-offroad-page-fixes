@@ -1,70 +1,44 @@
 # MIB2 Offroad Temperature Gauges
 
-Fix the **engine oil and coolant temperature readings** on the factory Offroad / Compass page of a Delphi MIB2. Offroad and Sport read the same temperature data. The shared correction in the Sport Gauges project fixed both readings on the project car. The compass, altitude and steering-angle gauges use their original data.
+Corrects **engine oil and coolant temperature readings** on the factory Offroad / Compass page. Offroad and Sport share the same temperature data, so one correction serves both screens. The compass, steering angle and altitude continue to use the original readings.
 
-![Offroad information page on a Delphi MIB2 head unit](docs/offroad-gauges.jpg)
+![Offroad page showing coolant temperature, oil temperature and altitude](docs/offroad-gauges.jpg)
 
-*Offroad page on the project car showing coolant temperature, oil temperature and altitude.*
+The earlier temperature fix worked in a 2015 Golf 7 with a **Delphi 874B**, software train **MST2_EU_VW_P0635D** and MU **0757**. The v0.2.0 installer was checked offline. Installation and rollback on Windows and on a live head unit remain untested.
 
 ## Fix the temperature readings
 
-The earlier shared fix worked in a 2015 Golf 7 with a Delphi 874B, software train `MST2_EU_VW_P0635D` and MU `0757`. The configuration below selects both temperature corrections with the rest of the Sport Gauges options at their defaults. The profile was checked offline with the v1.0.0 installer. Installation of this profile on Windows and on a live head unit remains untested.
+Use this release if your Offroad page already opens and both temperature readings need correction. If you already installed the Sport Gauges temperature corrections, Offroad uses them automatically. If your Sport setup is customized or only one temperature is wrong, use the Sport Gauges configurator to keep your existing settings and select only the correction you need. [Sport Gauges project](https://github.com/Victor-Unsullied/mib2-sports-gauges)
 
-If Sport Gauges already applies both corrections on your unit, Offroad uses the corrected readings automatically. If you already have a customized Sport setup, keep its configuration and use the Sport Gauges instructions for changing your existing installation.
+1. Download and extract the v0.2.0 ZIP on Windows with Python 3.10 or later. Double-click `Install.cmd`. The first run downloads and verifies the shared repair from GitHub. Keep an internet connection for that first run. [Offroad v0.2.0 prerelease](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/releases/tag/v0.2.0)
+2. With the car parked and the head unit on stable power, check the unit’s model, Train and MU. Check for **D-Link DUB-E100** on the adapter plugged into the head unit and connect the Ethernet cable to your Windows computer. [D-Link connection guide](https://utkulekesiz.com/en/blog/mib2-dlink-connection/)
+3. Choose English or Turkish and review the two temperature corrections. Confirm the unit and adapter, then enter the address shown in the unit’s Green Engineering Menu. Use the suggested **192.168.1.4** only if it matches. The wizard checks the direct Windows Ethernet route and asks for the unit’s existing FTP and Telnet service login details.
+4. Follow the wizard’s backup, restart and verification prompts. Keep power and Ethernet connected through each check. After installation, open Offroad and check both readings as the engine warms up.
 
-1. Download and extract the [Sport Gauges v1.0.0 installer](https://utkulekesiz.com/assets/mib2-sports/v1.0.0/mib2-sports-gauges-v1.0.0.zip). Use its [release page](https://github.com/Victor-Unsullied/mib2-sports-gauges/releases/tag/v1.0.0) for prerequisites and compatibility.
-2. Save the [Offroad temperature profile](https://raw.githubusercontent.com/Victor-Unsullied/mib2-offroad-page-fixes/main/docs/offroad-temperature.xml) as `config.xml` in the extracted Sport Gauges folder, next to its `install.py`. Run `py -3 configure.py`, enter the actual Train and MU from your unit, and save. If only one reading is wrong, clear the other temperature correction in the configurator.
-3. From that folder, run `py -3 install.py --check` and `py -3 install.py --plan` to review the setup offline. Follow the Sport Gauges installation instructions, then check the two readings on the Offroad page as the engine warms up. Keep the Sport Gauges folder and its `state/` directory. For temperature rollback, run `py -3 install.py --rollback` from that same folder.
+A failed installation can leave the head unit unusable. Read the wizard’s warning before confirming a write. Keep the entire installer folder, especially `state/temperature/`, which contains the private backups, logs and verified copy of the repair.
 
-## Show the Offroad page if it is missing
-
-The **Offroad v0.1.0 ZIP** changes only the visibility of the Offroad / Compass page. If your page already opens, skip this installer. **The visibility installer has not been tested on Windows or against a live head unit.**
-
-### Before you start
-
-- Check the unit's system information. This installer supports the navigation-equipped **Delphi 874B** with software train **MST2_EU_VW_P0635D** and MU **0757** on the reviewed vehicle configuration.
-- Check the label of the adapter plugged into the head unit for **D-Link DUB-E100**. Connect its Ethernet cable to your computer. Windows can check its own Ethernet connection and route to the supplied IP. Check the model on the label because the adapter plugs into the head unit. The head unit’s maintenance service (DebugSPI, TCP port 15001) must already be available. [D-Link connection guide](https://utkulekesiz.com/en/blog/mib2-dlink-connection/)
-- Have the IP address displayed in the head unit’s service menu ready. The wizard offers **192.168.1.4** as a default. Press Enter only if it matches the unit, or type the address shown on the unit. Use Python 3.10 or later.
-- Park the vehicle. Keep the head unit powered and the cable connected until the installer finishes verifying the setting.
-
-### Run the visibility installer
-
-Download and extract the installer ZIP. On Windows, double-click `Install.cmd` to start the wizard. To check the package or read the instructions first, open PowerShell in the extracted folder. [GitHub prerelease](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/releases/tag/v0.1.0)
+From PowerShell in the extracted folder, check the downloaded repair or preview the plan without contacting the car. Both commands can use the cached download on subsequent runs. Use `--inspect` to check a connected unit before deciding to install.
 
 ```powershell
 py -3 -B install.py --check
 py -3 -B install.py --plan
-py -3 -B install.py
-```
-
-1. Press Enter for English or type `tr` for Turkish. Confirm the model and software versions, then enter the IPv4 address from the unit's service menu.
-2. Enter a code unique to your head unit, such as its serial number. This lets the installer match your saved setting during rollback. The recovery file stores a fingerprint of the code. Keep the code and the `state/` folder private.
-3. The installer checks that the connected unit's vehicle configuration matches the reviewed setup. It reads the Offroad setting and shows its current value before asking to change it. Press Enter at a confirmation to exit. When you confirm, the installer saves the original setting before changing it and reads the setting again to verify the result.
-4. Restart the head unit normally and check that the page opens in the car's menus.
-
-To check the current setting, run the read-only inspection. It uses the same connection and IPv4 address and keeps the recovery file as it is.
-
-```powershell
 py -3 -B install.py --inspect
 ```
 
-### Roll back the visibility setting
+## Roll back the temperature repair
 
-Use the same physical unit, IPv4 address, private code and recovery folder.
+Use the same head unit and the original installer folder on Windows. The wizard asks for confirmation, restores the saved state and verifies the restart. Working service access is required.
 
 ```powershell
 py -3 -B install.py --rollback
 ```
 
-The installer shows the current setting and the saved setting it would restore. If they already match, it reports the verified result with no change to the unit. If an earlier operation stopped after a possible change, restart the unit normally and read its current setting with `--inspect` before attempting rollback. Keep the recovery folder available until you finish. See [RUNBOOK.txt](RUNBOOK.txt) for details and legacy commands.
+## Show the Offroad page if it is missing
 
-### Offline checks for the visibility installer
+The v0.1.0 ZIP changes page visibility only. Use it if you need to show the Offroad / Compass entry on the reviewed configuration. Use its own rollback command and saved state to restore the original menu setting. [Visibility release](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/releases/tag/v0.1.0) · [Visibility runbook for source checkouts](RUNBOOK.txt)
 
-```powershell
-py -3 -B -m unittest discover -s tests -p 'test_*.py' -v
-py -3 -B tests/check_portability.py
-```
+## Repair source
 
-The tests use simulated unit data. They cover cancellation, rollback, interrupted writes, and preservation of the Think Blue Trainer setting. The original menu change was checked in a vehicle through a normal reboot. The guided installer was checked offline on macOS. Windows, live head-unit behavior, and persistence after full power removal remain unverified.
+The Offroad release supplies the launcher and a profile with the two temperature corrections selected. The installer fetches the shared Sport Gauges recovery build at a specific commit and verifies its SHA-256 before running it. The Offroad ZIP contains no firmware. The shared installer creates its backups from the connected unit. [Pinned Sport Gauges recovery build](https://github.com/Victor-Unsullied/mib2-sports-gauges/tree/100c8b3617203f5706d968700329854160eaab9d)
 
-Report a bug or share a compatibility result in GitHub Issues. Include your head-unit model, Train, MU and project version. Share only reviewed error text or screenshots. [Open an issue](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/issues/new/choose)
+Report results with your head-unit model, Train and MU. Keep the private state folder and credentials out of issue attachments. [Open an issue](https://github.com/Victor-Unsullied/mib2-offroad-page-fixes/issues/new/choose)

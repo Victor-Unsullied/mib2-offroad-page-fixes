@@ -1,8 +1,8 @@
 {
-  "package_version": "0.1.0",
-  "feature": "offroad",
+  "package_version": "0.2.0",
+  "feature": "offroad_menu_visibility",
   "self_contained": true,
-  "entry_point": "install.py",
+  "entry_point": "menu_visibility.py",
   "runbook": "RUNBOOK.txt",
   "requirements": {
     "python": ">=3.10",
@@ -16,8 +16,8 @@
   "files": [
     {
       "path": "CHANGELOG.md",
-      "bytes": 1934,
-      "sha256": "998c003cd6be8e90385fe972b4e78da04a43104edb2ad37417e3b200c733b506"
+      "bytes": 2184,
+      "sha256": "2a117f28ba1386e77d2b1fe78967f1f33daf5a95a380d7e5a00503a476bde2a8"
     },
     {
       "path": "Install.cmd",
@@ -31,18 +31,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 6398,
-      "sha256": "85ec482d650ebc43a806a1ad26ea1cdca657b7ed19fae9d1fde259d6eeecc3b2"
+      "bytes": 4349,
+      "sha256": "cce3b740efa508bdb3c29ce02cf13700ab0783ad0092847e4b61be3cb7fd562e"
     },
     {
       "path": "RUNBOOK.txt",
-      "bytes": 3493,
-      "sha256": "aa9807198f2a996ab358cbac3b9ea110aa6b7e9bec038bf498209d66c224d6bf"
+      "bytes": 3519,
+      "sha256": "00a5c16f4908e23e961b87f4409030f4ab8ef9e393253c57576ce0b3c902f4ee"
     },
     {
       "path": "VERSION",
       "bytes": 6,
-      "sha256": "e9dd8507f4bf0c6f42458e41aea833ad0bd3f6127272335eee9bf4d58541ed67"
+      "sha256": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9"
     },
     {
       "path": "data/fixtures/codec.log",
@@ -56,13 +56,13 @@
     },
     {
       "path": "docs/offroad-temperature.xml",
-      "bytes": 924,
-      "sha256": "4baafb4791aa11fc95c7592d54cef1dc9cc4f5b9b3e7fa5a68444ae0450ca356"
+      "bytes": 945,
+      "sha256": "89ea662069605377deca1c8ff86ec819c1042cd408f8c312d9b5ca10afd49047"
     },
     {
       "path": "install.py",
-      "bytes": 2990,
-      "sha256": "dc97bc3194fac4c04a42744280329b9130806f6af6d0d7f22b31fed04e99082b"
+      "bytes": 4113,
+      "sha256": "12f8815b40b0165bf74b46c8db505ad86c7001218f31723dc0cb1e90caa6313e"
     },
     {
       "path": "lib/ethernet.py",
@@ -81,8 +81,8 @@
     },
     {
       "path": "lib/package.py",
-      "bytes": 1309,
-      "sha256": "5d95165edadc5990d43dded9788c8117ad245a1638d13f7d20cd0b63b1a11a81"
+      "bytes": 1317,
+      "sha256": "1ac60ef27a3089bf9fc6a5ba778c74eaf0ec32c21d6535cd46a1124f23e57bf7"
     },
     {
       "path": "lib/read_adaptations.py",
@@ -100,9 +100,19 @@
       "sha256": "a976f495b64e661aba771988f32f73dc0c3ca5049a5ff0e98ff01ce7494b5997"
     },
     {
+      "path": "lib/temperature_engine.py",
+      "bytes": 2838,
+      "sha256": "7bdb6e16a602a473248f40faa21b3d6f40ff339225ccd9678bac10c0c328eea6"
+    },
+    {
+      "path": "menu_visibility.py",
+      "bytes": 2990,
+      "sha256": "dc97bc3194fac4c04a42744280329b9130806f6af6d0d7f22b31fed04e99082b"
+    },
+    {
       "path": "tests/check_portability.py",
-      "bytes": 3715,
-      "sha256": "d82f8ed6bb3fcefd313b3c3d64a99457939db7de95b5f02eb68c100c333e4cc0"
+      "bytes": 3747,
+      "sha256": "ba1c091e8ea08ccc7596bd95f8d505ae2cd363f29326a91b9964bdf42b07f1af"
     },
     {
       "path": "tests/test_guided.py",
@@ -113,6 +123,11 @@
       "path": "tests/test_own_menu.py",
       "bytes": 3332,
       "sha256": "626fcfd6b2dd066e53d0d41ce20a75e7a66610adac5e04005a493f2db7a68018"
+    },
+    {
+      "path": "tests/test_temperature_installer.py",
+      "bytes": 2385,
+      "sha256": "14b0c36b45c224e6564f2aa773f6e84db40a6adb1ccc06f074a85acc84b084c4"
     }
   ]
 }

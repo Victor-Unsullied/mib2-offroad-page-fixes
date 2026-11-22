@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mib2-sports version="1.0" language="en">
-  <device train="" mu="" />
+  <device train="MST2_EU_VW_P0635D" mu="0757" />
   <options>
     <option name="oil_temperature_fix" value="true" />
     <option name="coolant_temperature_fix" value="true" />

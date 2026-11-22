@@ -15,14 +15,13 @@ Before you start
   unit. Park the vehicle and keep the head unit powered.
 
 Guided commands
-  py -3 -B install.py --check      Check the package offline.
-  py -3 -B install.py --plan       Print these steps.
-  py -3 -B install.py --inspect    Read and check the current setting.
-  py -3 -B install.py              Show the Offroad / Compass page.
-  py -3 -B install.py --rollback   Restore the saved Offroad setting.
+  py -3 -B menu_visibility.py --check      Check the package offline.
+  py -3 -B menu_visibility.py --plan       Print these steps.
+  py -3 -B menu_visibility.py --inspect    Read and check the current setting.
+  py -3 -B menu_visibility.py              Show the Offroad / Compass page.
+  py -3 -B menu_visibility.py --rollback   Restore the saved Offroad setting.
 
-  On Windows, double-click Install.cmd to start the wizard. You can also
-  run these commands in PowerShell. Use python3 in place of py -3 on
+  Run these commands in PowerShell on Windows. Use python3 in place of py -3 on
   platforms with that command. Press Enter for English or type tr for
   Turkish. You can also pass --language en or --language tr. Enter the
   unit's IPv4 address or pass it with --host.
@@ -42,7 +41,7 @@ Guided recovery
   folder for rollback. The code is a label you supply, such as the
   unit's serial number. The installer saves a fingerprint of the code
   in the recovery file so it can check that you are using the same
-  record. The default folder is state/ beside install.py. Keep it
+  record. The default folder is state/ beside menu_visibility.py. Keep it
   private, or use --state-dir to select a private folder and use that
   same path later. Run one operation at a time for the same unit.
 
@@ -54,11 +53,11 @@ Guided recovery
   reports that the receipt is damaged or belongs to a different unit.
 
 Legacy commands
-  python install.py verify
-  python install.py plan
-  python install.py inspect --live --host HEAD_UNIT_IP
-  python install.py apply --live --host HEAD_UNIT_IP
-  python install.py rollback --live --host HEAD_UNIT_IP
+  python menu_visibility.py verify
+  python menu_visibility.py plan
+  python menu_visibility.py inspect --live --host HEAD_UNIT_IP
+  python menu_visibility.py apply --live --host HEAD_UNIT_IP
+  python menu_visibility.py rollback --live --host HEAD_UNIT_IP
 
   Replace HEAD_UNIT_IP with your unit's IPv4 address. Use the same
   compatibility and connection checks. Legacy rollback turns the page

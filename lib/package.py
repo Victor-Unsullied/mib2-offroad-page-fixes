@@ -13,7 +13,7 @@ def integrity():
   if path.suffix=='.jar':
    with zipfile.ZipFile(path) as z:
     if z.testzip() is not None:raise ValueError('Damaged JAR: '+name)
- if not {'install.py','RUNBOOK.txt'}<=seen:raise ValueError('Incomplete package')
+ if not {'menu_visibility.py','RUNBOOK.txt'}<=seen:raise ValueError('Incomplete package')
  return len(seen)
 def invoke(name,args):
  path=(ROOT/'lib'/name).resolve()
